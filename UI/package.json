@@ -4,8 +4,9 @@
   "description": "UI of RESult",
   "main": "index.js",
   "scripts": {
-    "test": "test",
-    "dev": "webpack-dev-server --hot --open --port 8086"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --devtool eval --progress --colors --hot --open --port 8086",
+    "build": "webpack --colors --profile"
   },
   "author": "",
   "license": "ISC",

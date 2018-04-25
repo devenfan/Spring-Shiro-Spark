@@ -7,6 +7,8 @@ import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -24,6 +26,9 @@ public class RedisCacheConfig extends CachingConfigurerSupport{
     @Value("${spring.redis.port}")
     private int port;
 
+    @Value("${spring.redis.database}")
+    private int dbIndex;
+
     @Value("${spring.redis.timeout}")
     private int timeout;
 
@@ -37,13 +42,29 @@ public class RedisCacheConfig extends CachingConfigurerSupport{
     private String password;
 
     @Bean
-    public JedisPool redisPoolFactory() {
+    public JedisConnectionFactory redisConnectionFactory() {
         logger.info("redis: " + host + ":" + port);
+
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxIdle(maxIdle);
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
 
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
-        return jedisPool;
+        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
+        jedisConnectionFactory.setHostName(host);
+        jedisConnectionFactory.setPort(port);
+        jedisConnectionFactory.setPoolConfig(jedisPoolConfig);
+        jedisConnectionFactory.setDatabase(dbIndex);
+        jedisConnectionFactory.setPassword(password);
+
+        return jedisConnectionFactory;
+//        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
+//        return jedisPool;
+    }
+
+    @Bean
+    public StringRedisTemplate sessionRedisTemplate() {
+        StringRedisTemplate stringRedisTemplate  = new StringRedisTemplate();
+        stringRedisTemplate.setConnectionFactory(redisConnectionFactory());
+        return stringRedisTemplate;
     }
 }

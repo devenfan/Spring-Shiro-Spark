@@ -40,6 +40,7 @@ public class ShiroRealm extends AuthorizingRealm{
     @Autowired
     private ModelMapper modelMapper;
 
+    //获取用户授权信息（权限）
     @Override
     //@org.springframework.transaction.annotation.Transactional
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -64,14 +65,17 @@ public class ShiroRealm extends AuthorizingRealm{
         return info;
     }
 
+    //获取用户验证信息（登录）
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         String userName = token.getUsername();
 
         User user = userDao.findUserByUsername(userName);
-        UserDto userDto = convertToDto(user);
+        UserDto userDto = null;
         if(user != null){
+            userDto = convertToDto(user);
+
             //登陆成功
             Session session = SecurityUtils.getSubject().getSession();
             session.setAttribute("user",userDto);

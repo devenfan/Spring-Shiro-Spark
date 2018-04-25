@@ -14,6 +14,14 @@ Spark-Shiro-Spark是Spring-Boot Hibernate Spark Spark-SQL  Shiro iView VueJs... 
     
     - [Spring Boot与Spark的集成实践](https://github.com/ZhuXS/RESult/issues/8)
 
+
+## 使用说明
+
+  - 启动后端：java -jar result-0.0.1-SNAPSHOT.jar
+  - 启动前端：npm run dev
+  - 填充数据：在 mysql db 中添加用户及权限数据
+
+
    
 ## 欢迎批评指教 
     

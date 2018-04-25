@@ -5,6 +5,7 @@ import org.apache.shiro.session.SessionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -18,8 +19,11 @@ public class ShiroSessionListener implements SessionListener {
     @Autowired
     private ShiroSessionDao shiroSessionDao;
 
+//    @Autowired
+//    private JedisPool jedisPool;
+
     @Autowired
-    private JedisPool jedisPool;
+    private StringRedisTemplate sessionRedisTemplate;
 
     @Override
     public void onStart(Session session) {
@@ -29,16 +33,16 @@ public class ShiroSessionListener implements SessionListener {
     @Override
     public void onStop(Session session) {
         shiroSessionDao.delete(session);
-        Jedis jedis = jedisPool.getResource();
-        jedis.publish("shiro.session.uncache",(String) session.getId());
+//        Jedis jedis = jedisPool.getResource();
+//        jedis.publish("shiro.session.uncache",(String) session.getId());
         logger.debug("session {} onStop", session.getId());
     }
 
     @Override
     public void onExpiration(Session session) {
         shiroSessionDao.delete(session);
-        Jedis jedis = jedisPool.getResource();
-        jedis.publish("shiro.session.uncache",(String) session.getId());
+//        Jedis jedis = jedisPool.getResource();
+//        jedis.publish("shiro.session.uncache",(String) session.getId());
         logger.debug("session {} onExpiration", session.getId());
     }
 }

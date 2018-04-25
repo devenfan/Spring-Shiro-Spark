@@ -4,6 +4,7 @@ import com.zhuxs.result.shiro.ShiroSessionDao;
 import com.zhuxs.result.shiro.ShiroRealm;
 import com.zhuxs.result.shiro.ShiroSessionFactory;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -36,17 +37,23 @@ public class ShiroConfig {
         return new LifecycleBeanPostProcessor();
     }
 
-    /**
-     * HashCredentialsMatcher,对密码进行编码
-     */
-    @Bean(name = "hashCredentialsMatcher")
-    public HashedCredentialsMatcher hashedCredentialsMatcher(){
-        HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
-        credentialsMatcher.setHashAlgorithmName("MD5");
-        credentialsMatcher.setHashIterations(2); //散列两次
-        credentialsMatcher.setStoredCredentialsHexEncoded(true);
-        return credentialsMatcher;
+//    /**
+//     * HashCredentialsMatcher,对密码进行编码
+//     */
+//    @Bean(name = "hashCredentialsMatcher")
+//    public HashedCredentialsMatcher hashedCredentialsMatcher(){
+//        HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
+//        credentialsMatcher.setHashAlgorithmName("MD5");
+//        credentialsMatcher.setHashIterations(2); //散列两次
+//        credentialsMatcher.setStoredCredentialsHexEncoded(true);
+//        return credentialsMatcher;
+//    }
+
+    @Bean(name = "simpleCredentialsMatcher")
+    public SimpleCredentialsMatcher simpleCredentialsMatcher(){
+        return new SimpleCredentialsMatcher();
     }
+
 
     /**
      * ShiroRealm, 自定义的认证类

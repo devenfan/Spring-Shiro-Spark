@@ -1,14 +1,13 @@
 target/
 
 ### IntelliJ IDEA ###
+.idea
 Server/.idea
+Server/*.iml
 UI/.idea
+UI/.idea/*.iml
 UI/node_modules
 UI/dist
-Server/.idea/workspace.xml
-Server/.idea/workspace.xml
-UI/.idea/workspace.xml
-Server/.idea/workspace.xml
-UI/.idea/workspace.xml
+
 .DS_Store
 
