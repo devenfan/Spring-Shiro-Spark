@@ -2,6 +2,7 @@
  * Created by shusesshou on 2017/9/21.
  */
 const getters = {
+    token: state => state.user.token,
     status: state => state.user.status,
     username: state => state.user.username,
     name: state => state.user.name,

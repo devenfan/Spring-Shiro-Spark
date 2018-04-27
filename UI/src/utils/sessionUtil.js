@@ -16,3 +16,6 @@ export function setSessionId(token) {
 export function removeSessionId() {
     return Cookies.remove(sessionId)
 }
+
+
+

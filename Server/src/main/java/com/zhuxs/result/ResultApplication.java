@@ -8,11 +8,11 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 
 @SpringBootApplication
 public class ResultApplication {
+
 	public static void main(String[] args) {
 		System.setProperty("spark.executor.memory","512m");
 		SpringApplication.run(ResultApplication.class, args);
 	}
-
 
 }
 

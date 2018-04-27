@@ -23,9 +23,9 @@ export function getUserInfo() {
     })
 }
 
-export function logout(sessionId) {
+export function logout(token) {
     const data = {
-        sessionId
+        token
     }
     return fetch({
         url:'/logout',

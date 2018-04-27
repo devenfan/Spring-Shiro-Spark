@@ -37,7 +37,7 @@ public class ShiroSessionDao extends CachingSessionDAO{
     private static final Logger logger = LoggerFactory.getLogger(ShiroSessionDao.class);
 
     //保存到Redis中key的前缀
-    private String prefix = "";
+    private String prefix = "shiroSession:";
 
     //设置会话的过期时间
     private int expireTime = 3600000;
@@ -47,6 +47,8 @@ public class ShiroSessionDao extends CachingSessionDAO{
 
     @Autowired
     private StringRedisTemplate sessionRedisTemplate;
+
+    // -----------------------------------------------------------------------------
 
 
     /**
@@ -202,13 +204,15 @@ public class ShiroSessionDao extends CachingSessionDAO{
 
         String sessionKey = prefix + sessionId;
         BoundValueOperations<String, String> opts = sessionRedisTemplate.boundValueOps(sessionKey);
-
-        Session session = SerializeUtils.deserializeFromString(opts.get());
-
-        //重置Redis中缓存过期的时间
-        opts.expire(expireTime, TimeUnit.SECONDS);
-        logger.info("sessionId {} name {} 被读取并刷新", sessionId, session.getClass().getName());
-
+        String value = opts.get();
+        Session session = value == null ? null : SerializeUtils.deserializeFromString(opts.get());
+        if(session != null) {
+            //重置Redis中缓存过期的时间
+            opts.expire(expireTime, TimeUnit.SECONDS);
+            logger.info("sessionId {} name {} 被读取并刷新", sessionId, session.getClass().getName());
+        } else {
+            logger.info("sessionId {} name {} 无法读取", sessionId, null);
+        }
 
 //        Jedis jedis = jedisPool.getResource();
 //        Session session = null;
@@ -238,8 +242,13 @@ public class ShiroSessionDao extends CachingSessionDAO{
         String sessionKey = prefix + sessionId;
         BoundValueOperations<String, String> opts = sessionRedisTemplate.boundValueOps(sessionKey);
 
-        Session session = SerializeUtils.deserializeFromString(opts.get());
-        logger.info("sessionId {} name {} 被读取", sessionId, session.getClass().getName());
+        String value = opts.get();
+        Session session = value == null ? null : SerializeUtils.deserializeFromString(opts.get());
+        if(session != null) {
+            logger.info("sessionId {} name {} 被读取", sessionId, session.getClass().getName());
+        } else {
+            logger.info("sessionId {} name {} 无法读取", sessionId, null);
+        }
 
 //        Session session = null;
 //        Jedis jedis = null;
@@ -284,6 +293,8 @@ public class ShiroSessionDao extends CachingSessionDAO{
 //        }
 //        return null;
     }
+
+    // -----------------------------------------------------------------------------
 
     /**
      * 返回本机Ehcache中Session

@@ -14,11 +14,12 @@
 </style>
 
 <script>
-    import store from  '../../store'
+    //import store from  '../../store'
     export default{
         data () {
             return {
-                name: store.getters.name
+                //name: store.getters.name
+                name: this.$store.getters.name
             }
         }
     }

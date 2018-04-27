@@ -32,7 +32,7 @@
 </style>
 
 <script>
-    import store from  '../../store'
+    //import store from  '../../store'
     import signIn from "./signIn.vue"
     import signed from "./signed.vue"
     export default{
@@ -43,7 +43,8 @@
         data () {
             return {
                 msg: 'hello',
-                status: store.getters.status
+                status: this.$store.getters.status
+                //status: store.getters.status
             }
         }
     }

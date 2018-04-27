@@ -3,19 +3,21 @@ package com.zhuxs.result.dto;
 import javax.validation.constraints.Max;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by shusesshou on 2017/9/22.
  */
 public class UserDto implements Serializable{
+
     private long id;
     private String name;
-
     private String username;
     private String password;
     private String salt;
     private List<RoleDto> roles;
     private List<PermissionDto> permissions;
+    private String token;
 
     public UserDto() {
     }
@@ -119,27 +121,29 @@ public class UserDto implements Serializable{
         this.permissions = permissions;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         UserDto userDto = (UserDto) o;
-
-        if (id != userDto.id) return false;
-        if (name != null ? !name.equals(userDto.name) : userDto.name != null) return false;
-        if (username != null ? !username.equals(userDto.username) : userDto.username != null) return false;
-        if (password != null ? !password.equals(userDto.password) : userDto.password != null) return false;
-        return salt != null ? salt.equals(userDto.salt) : userDto.salt == null;
+        return getId() == userDto.getId() && Objects.equals(getName(), userDto.getName()) && Objects.equals(getUsername(), userDto.getUsername()) && Objects
+                .equals(getPassword(), userDto.getPassword()) && Objects.equals(getSalt(), userDto.getSalt()) && Objects.equals(getRoles(), userDto.getRoles())
+                && Objects.equals(getPermissions(), userDto.getPermissions()) && Objects.equals(getToken(), userDto.getToken());
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (salt != null ? salt.hashCode() : 0);
-        return result;
+
+        return Objects.hash(getId(), getName(), getUsername(), getPassword(), getSalt(), getRoles(), getPermissions(), getToken());
     }
 }

@@ -13,6 +13,7 @@ import java.util.Map;
  * 增加标识位，如果只是更新lastAccessTime方法直接返回
  */
 public class ShiroSession extends SimpleSession implements Serializable{
+
     private Boolean isChanged;
 
     public ShiroSession(){

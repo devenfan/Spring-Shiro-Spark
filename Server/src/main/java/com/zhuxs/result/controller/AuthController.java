@@ -21,6 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -33,9 +35,13 @@ import java.util.stream.Collectors;
  */
 @RestController
 public class AuthController {
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public static final String SUBPATH_LOGIN = "/login";
+    public static final String SUBPATH_LOGOUT = "/logout";
     public static final String SUBPATH_USERINFO = "/userInfo";
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -43,9 +49,9 @@ public class AuthController {
     public ResponseEntity<UserDto> login(@RequestBody UserDto userDto,
                                          UriComponentsBuilder uriComponentsBuilder){
         HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,SUBPATH_LOGIN);
-        logger.info("================userInfo================username: " + userDto.getUsername() + ",pw: " + userDto.getPassword());
+        logger.info("================userInfo================username: " + userDto.getUsername() + ", pwd: " + userDto.getPassword());
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(userDto.getUsername(),userDto.getPassword());
+        UsernamePasswordToken token = new UsernamePasswordToken(userDto.getUsername(), userDto.getPassword());
         //User user = new User("root","root","root","root");
         //userDao.save(user);
         try{

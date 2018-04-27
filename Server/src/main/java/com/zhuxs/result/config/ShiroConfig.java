@@ -117,6 +117,7 @@ public class ShiroConfig {
         Map<String, Filter> filters = new LinkedHashMap<String,Filter>();
         LogoutFilter logoutFilter = new LogoutFilter();
         logoutFilter.setRedirectUrl("/login");
+
         shiroFilterFactoryBean.setFilters(filters);
         shiroFilterFactoryBean.setLoginUrl("/notAuthc");
 

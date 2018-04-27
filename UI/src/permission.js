@@ -3,7 +3,7 @@
  */
 import router from './router'
 import store from  './store'
-import { getSessionId } from "./utils/auth"
+// import { getSessionId } from "./utils/auth"
 import NProgress from 'nprogress' //进度条
 import 'nprogress/nprogress.css'
 
@@ -36,11 +36,17 @@ router.beforeEach((to,from,next) => {
                     //next({ ...to })
                 })
             }).catch(e => {
-                if(e.response.data.errorCode.code === 40010){
+                if(!e.response.data || !e.response.data.errorCode) {
+                    next('/login') //全部定向到登录页
+                } else {
+                    if(e.response.data.errorCode.code === 40010){
+                        next('/login') //否则全部定向到登录页
+                    }
+                    if(e.response.data.errorCode.code === 1) {
+
+                    }
                     next('/login') //否则全部定向到登录页
                 }
-                if(e.response.data.errorCode.code === 1)
-                next('/login') //否则全部定向到登录页
             })
         }
     }

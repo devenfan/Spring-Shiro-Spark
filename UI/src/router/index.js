@@ -26,6 +26,11 @@ export const constantRouterMap = [
         name: "login"
     },
     {
+        path: "/logout",
+        component: _import('logout/index'),
+        name: "logout"
+    },
+    {
         path: "/admin",
         component: _import('admin/index'),
         //redirect: '/dashboard',
