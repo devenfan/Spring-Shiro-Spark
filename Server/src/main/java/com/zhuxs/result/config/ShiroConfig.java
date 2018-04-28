@@ -102,8 +102,11 @@ public class ShiroConfig {
         securityManager.setRealm(shiroRealm());
         //设置session管理器
         securityManager.setSessionManager(sessionManager());
+
         return securityManager;
     }
+
+
 
     /**
      * ShirpFilterFactoryBean, 生成ShiroFilter
@@ -111,22 +114,22 @@ public class ShiroConfig {
      */
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(){
+
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+
         shiroFilterFactoryBean.setSecurityManager(securityManager());
 
         Map<String, Filter> filters = new LinkedHashMap<String,Filter>();
-        LogoutFilter logoutFilter = new LogoutFilter();
-        logoutFilter.setRedirectUrl("/login");
-
         shiroFilterFactoryBean.setFilters(filters);
+
         shiroFilterFactoryBean.setLoginUrl("/notAuthc");
 
-        Map<String,String> filterChainDefinitionManager = new LinkedHashMap<String,String>();
-        filterChainDefinitionManager.put("/logout","logout");
-        filterChainDefinitionManager.put("/userInfo","authc");
-        filterChainDefinitionManager.put("/jobs/**","perms[WORDCOUNT:CREATE]");
-        filterChainDefinitionManager.put("/admin/**","roles[Admin]");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
+        Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
+        filterChainDefinitionMap.put("/logout","logout");  //注意：这里有用LogoutFilter
+        filterChainDefinitionMap.put("/userInfo","authc");
+        filterChainDefinitionMap.put("/jobs/**","perms[wordcount:all]");
+        filterChainDefinitionMap.put("/admin/**","roles[admin]");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
         shiroFilterFactoryBean.setSuccessUrl("/");
         shiroFilterFactoryBean.setUnauthorizedUrl("/notAuthz");

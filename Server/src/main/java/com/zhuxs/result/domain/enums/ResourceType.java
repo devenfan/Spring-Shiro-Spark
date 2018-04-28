@@ -5,7 +5,7 @@ package com.zhuxs.result.domain.enums;
  */
 public enum ResourceType {
 
-    WORDCOUNT(0,"WordCount");
+    WORDCOUNT(0,"wordcount");
 
     private int type;
     private String desc;
@@ -32,5 +32,10 @@ public enum ResourceType {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    @Override
+    public String toString() {
+        return desc;
     }
 }

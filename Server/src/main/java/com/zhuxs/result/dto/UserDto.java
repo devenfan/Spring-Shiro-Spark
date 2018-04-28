@@ -146,4 +146,20 @@ public class UserDto implements Serializable{
 
         return Objects.hash(getId(), getName(), getUsername(), getPassword(), getSalt(), getRoles(), getPermissions(), getToken());
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer(getClass().getName());
+        sb.append("{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", username='").append(username).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", salt='").append(salt).append('\'');
+        sb.append(", roles=").append(roles);
+        sb.append(", permissions=").append(permissions);
+        sb.append(", token='").append(token).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

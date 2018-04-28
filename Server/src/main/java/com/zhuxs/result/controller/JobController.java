@@ -26,7 +26,8 @@ import java.util.List;
 /**
  * Created by shusesshou on 2017/9/4.
  */
-@RequestMapping(value = JobController.PATH,produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = JobController.PATH,
+        produces = MediaType.APPLICATION_JSON_VALUE)
 @Controller
 public class JobController {
     public static final String PATH = "jobs";

@@ -123,11 +123,20 @@ public class ShiroRealm extends AuthorizingRealm{
 
     private RoleDto convertToDto(Role role){
         RoleDto roleDto = new RoleDto();
+//        roleDto.setId(role.getId());
         roleDto.setName(role.getName());
         return roleDto;
     }
 
     private PermissionDto convertToDto(Permission permission){
-        return modelMapper.map(permission,PermissionDto.class);
+
+        PermissionDto dto = new PermissionDto();
+//        dto.setId(permission.getId());
+        dto.setName(permission.getName());
+        dto.setAction(permission.getAction());
+        dto.setResourceType(permission.getType());
+        dto.setResource(permission.getResource());
+        return dto;
+//        return modelMapper.map(permission,PermissionDto.class);
     }
 }

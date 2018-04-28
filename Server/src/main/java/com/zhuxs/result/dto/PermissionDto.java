@@ -102,4 +102,17 @@ public class PermissionDto implements Serializable{
         result = 31 * result + (action != null ? action.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer(getClass().getName());
+        sb.append("{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", resource='").append(resource).append('\'');
+        sb.append(", resourceType=").append(resourceType);
+        sb.append(", action=").append(action);
+        sb.append('}');
+        return sb.toString();
+    }
 }

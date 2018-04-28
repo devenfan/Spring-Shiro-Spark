@@ -182,6 +182,7 @@ public class ShiroSessionDao extends CachingSessionDAO{
         opts.set(SerializeUtils.serializaToString((ShiroSession) session));
         opts.expire(expireTime, TimeUnit.SECONDS);
         logger.info("sessionId {} name {} 被创建", sessionId, session.getClass().getName());
+        return sessionId;
 
 //        Jedis jedis = null;
 //        try{
@@ -195,7 +196,7 @@ public class ShiroSessionDao extends CachingSessionDAO{
 //        }finally {
 //            jedis.close();
 //        }
-        return sessionId;
+//        return sessionId;
     }
 
     @Override
@@ -205,7 +206,16 @@ public class ShiroSessionDao extends CachingSessionDAO{
         String sessionKey = prefix + sessionId;
         BoundValueOperations<String, String> opts = sessionRedisTemplate.boundValueOps(sessionKey);
         String value = opts.get();
-        Session session = value == null ? null : SerializeUtils.deserializeFromString(opts.get());
+        Session session = null;
+        try {
+            session = (value == null) ? null : SerializeUtils.deserializeFromString(opts.get());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            sessionRedisTemplate.delete(sessionKey);
+            logger.debug("shiro session {} 无法被正确读取并解析，已被删除！", sessionId);
+            return null;
+        }
+
         if(session != null) {
             //重置Redis中缓存过期的时间
             opts.expire(expireTime, TimeUnit.SECONDS);
@@ -213,6 +223,7 @@ public class ShiroSessionDao extends CachingSessionDAO{
         } else {
             logger.info("sessionId {} name {} 无法读取", sessionId, null);
         }
+        return session;
 
 //        Jedis jedis = jedisPool.getResource();
 //        Session session = null;
@@ -231,7 +242,7 @@ public class ShiroSessionDao extends CachingSessionDAO{
 //        } finally {
 //            jedis.close();
 //        }
-        return session;
+//        return session;
     }
 
     /**
@@ -243,12 +254,22 @@ public class ShiroSessionDao extends CachingSessionDAO{
         BoundValueOperations<String, String> opts = sessionRedisTemplate.boundValueOps(sessionKey);
 
         String value = opts.get();
-        Session session = value == null ? null : SerializeUtils.deserializeFromString(opts.get());
+        Session session = null;
+        try {
+            session = (value == null) ? null : SerializeUtils.deserializeFromString(opts.get());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            sessionRedisTemplate.delete(sessionKey);
+            logger.debug("shiro session {} 无法被正确读取并解析，已被删除！", sessionId);
+            return null;
+        }
+
         if(session != null) {
             logger.info("sessionId {} name {} 被读取", sessionId, session.getClass().getName());
         } else {
             logger.info("sessionId {} name {} 无法读取", sessionId, null);
         }
+        return session;
 
 //        Session session = null;
 //        Jedis jedis = null;
@@ -264,7 +285,7 @@ public class ShiroSessionDao extends CachingSessionDAO{
 //        } finally {
 //            jedis.close();
 //        }
-        return session;
+//        return session;
     }
 
     /**

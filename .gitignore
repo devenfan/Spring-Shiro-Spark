@@ -1,13 +1,16 @@
+
+.DS_Store
+.idea
+.vscode
 target/
 
-### IntelliJ IDEA ###
-.idea
 Server/.idea
 Server/*.iml
+Server/target
+
 UI/.idea
 UI/.idea/*.iml
 UI/node_modules
 UI/dist
-
-.DS_Store
+UI/.vscode
 
